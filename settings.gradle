@@ -1,0 +1,4 @@
+rootProject.name = 'testing'
+include 'consumers','producers','common'
+
+

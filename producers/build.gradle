@@ -1,0 +1,12 @@
+
+dependencies {
+    implementation project(':common')
+
+    implementation "com.amazonaws:amazon-kinesis-producer:0.12.11"
+}
+
+
+task createDirs  {
+    sourceSets*.kotlin.srcDirs*.each { it.mkdirs() }
+    sourceSets*.resources.srcDirs*.each { it.mkdirs() }
+}
