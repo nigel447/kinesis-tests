@@ -1,0 +1,10 @@
+java-runtime-1
+build/
+.gradle
+*.txt
+*.bat
+.idea
+*.csv
+*.iml
+*.project
+*.jar
