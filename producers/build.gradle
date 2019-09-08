@@ -1,9 +1,22 @@
 
 dependencies {
     implementation project(':common')
-
+    implementation project(':lambda')
+    implementation "com.amazonaws:aws-java-sdk-kinesis:$aws_sdk_version"
     implementation "com.amazonaws:amazon-kinesis-producer:0.12.11"
 }
+
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'aws.kinesis.producer.ProducersKt'
+    }
+    // This line of code recursively collects and copies all of a project's files
+    // and adds them to the JAR itself. One can extend this task, to skip certain
+    // files or particular types at will
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
 
 
 task createDirs  {

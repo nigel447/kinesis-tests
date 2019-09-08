@@ -1,4 +1,4 @@
 rootProject.name = 'testing'
-include 'consumers','producers','common'
+include 'consumers', 'producers', 'common', 'lambda'
 
 

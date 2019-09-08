@@ -1,7 +1,7 @@
 
 dependencies {
     implementation project(':common')
-    implementation 'com.amazonaws:amazon-kinesis-client:1.8.8'
+    api 'com.amazonaws:amazon-kinesis-client:1.8.8'
 
 }
 

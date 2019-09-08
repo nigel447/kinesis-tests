@@ -28,13 +28,13 @@ object KinesisCosumerClientProvider {
 
     fun kinesisClient(): AmazonKinesis {
         val builder = AmazonKinesisClientBuilder.standard().withCredentials(LocalStackConfig.credentials())
-        builder.withEndpointConfiguration(LocalStackConfig.endpointResolver(true, false) )
+        builder.withEndpointConfiguration(LocalStackConfig.endpointResolver(true, false, false) )
         return builder.build()
     }
 
     fun dynamoDBClient(): AmazonDynamoDB {
         val builder = AmazonDynamoDBClientBuilder.standard().withCredentials(LocalStackConfig.credentials())
-        builder.withEndpointConfiguration(LocalStackConfig.endpointResolver(false, false))
+        builder.withEndpointConfiguration(LocalStackConfig.endpointResolver(false, false, false))
         return builder.build()
     }
 
@@ -42,7 +42,7 @@ object KinesisCosumerClientProvider {
     fun s3(): AmazonS3 {
         val builder = AmazonS3ClientBuilder.standard()
             .withCredentials(LocalStackConfig.credentials())
-            .withEndpointConfiguration(LocalStackConfig.endpointResolver(true,true ))
+            .withEndpointConfiguration(LocalStackConfig.endpointResolver(true,true, false ))
         builder.isPathStyleAccessEnabled =true
         return builder.build()
 

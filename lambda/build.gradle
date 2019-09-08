@@ -1,0 +1,45 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "5.1.0"
+}
+
+shadowJar {
+
+    exclude 'pdfimg/**'
+    // exclude 'org/apache/**'
+    exclude 'org/mozilla/**'
+    exclude 'logback.xml'
+    exclude 'ch/**'
+    exclude 'kotlin*'
+    exclude 'junit/**'
+    exclude 'mozilla/**'
+    exclude 'org/apache/http/**'
+    exclude 'org/hamcrest/**'
+    exclude 'org/jetbrains/**'
+    exclude 'org/json/**'
+    exclude 'org/junit/**'
+    exclude 'org/koin/**'
+    exclude 'org/slf4j/**'
+    exclude 'com/fasterxml/**'
+    exclude 'com/amazonaws/jmx/**'
+    exclude 'software/amazon/ion/**'
+    minimize()
+}
+
+tasks.build.dependsOn tasks.shadowJar
+
+dependencies {
+    implementation project(':common')
+    implementation "com.amazonaws:aws-java-sdk-lambda:$aws_sdk_version"
+    implementation "com.amazonaws:aws-lambda-java-core:1.2.0"
+    implementation "com.amazonaws:aws-lambda-java-events:2.2.6"
+    implementation  'commons-io:commons-io:2.6'
+    implementation 'org.apache.commons:commons-lang3:3.9'
+}
+
+
+
+
+task createDirs  {
+    sourceSets*.kotlin.srcDirs*.each { it.mkdirs() }
+    sourceSets*.resources.srcDirs*.each { it.mkdirs() }
+}

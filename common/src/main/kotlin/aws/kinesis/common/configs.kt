@@ -19,6 +19,7 @@ enum class LOCALSTACK_CONFIG(var param: String) {
     DEFAULT_HOST("localhost"),
     KINESIS_PORT("4568"),
     DYNAMO_PORT("8000"),
+    LAMBDA_PORT("4574"),
     S3_PORT("4572"),
     S3_BUCKET("test.bucket"),
     TEST_ACCESS_ID("LOCALSTACK_ACCESS_ID"),
@@ -40,23 +41,33 @@ object CredentialsProvider : AWSCredentialsProvider {
     }
 }
 
+
+
 object LocalStackConfig {
 
+    val region =  Regions.US_EAST_2.getName()
+
     // swap for https re localstack or http dynamo lease tables
-    fun endpointResolver(isLocalStackHost: Boolean, isS3:Boolean): AwsClientBuilder.EndpointConfiguration {
-        if (isLocalStackHost) {
+    fun endpointResolver(isLocalStackContainerHost: Boolean, isS3:Boolean, islambda:Boolean): AwsClientBuilder.EndpointConfiguration {
+        if (isLocalStackContainerHost) {
+
             if(isS3) {
                 return AwsClientBuilder.EndpointConfiguration(resolveHostTemplate(LOCALSTACK_CONFIG.DEFAULT_HOST.param,
-                    LOCALSTACK_CONFIG.S3_PORT,true), Regions.US_EAST_2.getName())
-            } else {
+                    LOCALSTACK_CONFIG.S3_PORT), region)
+            } else if(islambda) {
                 return AwsClientBuilder.EndpointConfiguration(resolveHostTemplate(LOCALSTACK_CONFIG.DEFAULT_HOST.param,
-                    LOCALSTACK_CONFIG.KINESIS_PORT,true), Regions.US_EAST_2.getName())
-            }
+                    LOCALSTACK_CONFIG.LAMBDA_PORT), region)
+            } else {
+                    return AwsClientBuilder.EndpointConfiguration(resolveHostTemplate(LOCALSTACK_CONFIG.DEFAULT_HOST.param,
+                        LOCALSTACK_CONFIG.KINESIS_PORT), region)
+                }
 
-        } else {
+
+         } else {
+            // dynamo db container
             return AwsClientBuilder.EndpointConfiguration(resolveHostTemplate(
                 LOCALSTACK_CONFIG.DEFAULT_HOST.param,
-                LOCALSTACK_CONFIG.DYNAMO_PORT, false), Regions.US_EAST_2.getName());
+                LOCALSTACK_CONFIG.DYNAMO_PORT), region);
         }
     }
 
@@ -64,12 +75,8 @@ object LocalStackConfig {
         return CredentialsProvider
     }
 
-    private fun resolveHostTemplate(ip: String, port: LOCALSTACK_CONFIG, isTLS: Boolean): String {
-        if(isTLS) {
-            return "https://$ip:${port.param}"
-        } else {
-            return "http://$ip:${port.param}"
-        }
+    private fun resolveHostTemplate(ip: String, port: LOCALSTACK_CONFIG ): String {
+        return "https://$ip:${port.param}"
     }
 
     fun bootstrapEnvironment() {
