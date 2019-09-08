@@ -8,3 +8,5 @@ build/
 *.iml
 *.project
 *.jar
+*.zip
+
