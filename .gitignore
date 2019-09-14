@@ -10,4 +10,6 @@ build/
 *.jar
 *.zip
 containers/data/
-
+.classpath
+.settings/
+bin/
