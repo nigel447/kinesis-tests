@@ -19,6 +19,6 @@ Test 2 kinesis lambda event
 
 <img src="https://github.com/nigel447/kinesis-tests/blob/master/Summary2.png" width="400">
 
-## Under Construction
+### Usage (Video)
 
  
